@@ -1,0 +1,18 @@
+{
+  "@microsoft/generator-sharepoint": {
+    "plusBeta": false,
+    "isCreatingSolution": true,
+    "nodeVersion": "22.15.0",
+    "sdksVersions": {},
+    "version": "1.21.1",
+    "libraryName": "graficas",
+    "libraryId": "0fdb2ed7-e062-4ee6-bf55-9acbb2b632e1",
+    "environment": "spo",
+    "packageManager": "npm",
+    "solutionName": "graficas",
+    "solutionShortDescription": "graficas description",
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "componentType": "webpart"
+  }
+}

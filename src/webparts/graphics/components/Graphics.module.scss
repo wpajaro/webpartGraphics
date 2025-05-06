@@ -1,0 +1,14 @@
+@import '~@microsoft/sp-office-ui-fabric-core/dist/sass/SPFabricCore.scss';
+
+.container {
+  padding: 20px;
+  background-color: "[theme:white, default: #ffffff]";
+  max-width: 100%;
+  overflow-x: auto;
+}
+canvas {
+  display: block;
+  background: white;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
