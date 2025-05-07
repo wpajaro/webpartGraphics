@@ -28,6 +28,7 @@ import {
   Title,
   Tooltip,
   Legend,
+  //ArcElement,
 } from 'chart.js';
 
 Chart.register(
@@ -40,7 +41,8 @@ Chart.register(
   CategoryScale,
   Title,
   Tooltip,
-  Legend
+  Legend,
+  //ArcElement
 );
 
 interface IGraphicsProps {
@@ -73,6 +75,7 @@ const Graphics: React.FC<IGraphicsProps> = ({ context }) => {
 
   const chartRef = React.useRef<HTMLCanvasElement>(null);
   const lineChartRef = React.useRef<HTMLCanvasElement>(null);
+  //const pieChartRef = React.useRef<HTMLCanvasElement>(null);
 
   React.useEffect(() => {
     const fetchListData = async () => {
@@ -93,6 +96,7 @@ const Graphics: React.FC<IGraphicsProps> = ({ context }) => {
         if (!fieldsResponse.ok || !itemsResponse.ok) {
           throw new Error('Error al obtener datos de la lista');
         }
+
 
         const fields = (await fieldsResponse.json()).value;
         const items = (await itemsResponse.json()).value;
@@ -115,11 +119,11 @@ const Graphics: React.FC<IGraphicsProps> = ({ context }) => {
       }
     };
 
-    fetchListData();
+    void fetchListData();
   }, [context]);
 
   React.useEffect(() => {
-    if (selectedTab !== 'graficas' || !items.length || !chartRef.current || !lineChartRef.current) return;
+    if (selectedTab !== 'graficas' || !items.length || !chartRef.current || !lineChartRef.current /*|| !pieChartRef.current*/) return;
 
     // GRÁFICA DE BARRAS POR MARCA
     const marcasCount = items.reduce((acc, item) => {
@@ -194,9 +198,46 @@ const Graphics: React.FC<IGraphicsProps> = ({ context }) => {
       },
     });
 
+    /*
+    const pieChart = new Chart(pieChartRef.current, {
+      type: 'pie',
+      data: {
+        labels: Object.keys(marcasCount),
+        datasets: [{
+          label: 'Distribución de marcas',
+          data: Object.values(marcasCount),
+          backgroundColor: [
+            'rgba(255, 99, 132, 0.6)',
+            'rgba(54, 162, 235, 0.6)',
+            'rgba(255, 206, 86, 0.6)',
+            'rgba(75, 192, 192, 0.6)',
+            'rgba(153, 102, 255, 0.6)',
+            'rgba(255, 159, 64, 0.6)',
+            'rgba(100, 100, 255, 0.6)',
+          ],
+          borderColor: 'rgba(255,255,255,1)',
+          borderWidth: 1,
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'right',
+          },
+          title: {
+            display: true,
+            text: 'Distribución de marcas',
+          },
+        },
+      },
+    });
+    
+*/
     return () => {
       barChart.destroy();
       lineChart.destroy();
+      //pieChart.destroy();
     };
   }, [selectedTab, items]);
 
@@ -231,13 +272,20 @@ const Graphics: React.FC<IGraphicsProps> = ({ context }) => {
         <PivotItem headerText="Gráficas" itemKey="graficas">
           <div style={{ marginTop: 20 }}>
             <Text variant="large">Vehículos por marca</Text>
-            <canvas ref={chartRef} width="400" height="200"></canvas>
+            <canvas ref={chartRef} width="400" height="200" />
           </div>
 
           <div style={{ marginTop: 40 }}>
             <Text variant="large">Duración por vehículo</Text>
-            <canvas ref={lineChartRef} width="400" height="200"></canvas>
+            <canvas ref={lineChartRef} width="400" height="200" />
           </div>
+
+           {/*
+          <div style={{ marginTop: 40 }}>
+            <Text variant="large">Distribución de marcas</Text>
+            <canvas ref={pieChartRef} width="400" height="200" />
+          </div>*/} 
+
         </PivotItem>
       </Pivot>
     </div>
